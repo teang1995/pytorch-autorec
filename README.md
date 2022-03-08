@@ -3,9 +3,9 @@ Implementation of [AutoRec: Autoencoders Meet Collaborative Filtering](https://u
 
 
 ## Directory structure
-```
 .
 |-- config
+|   `-- train_config.yaml
 |-- data
 |   |-- movielens-10M
 |   |   |-- README.html
@@ -35,4 +35,3 @@ Implementation of [AutoRec: Autoencoders Meet Collaborative Filtering](https://u
 |-- path.py
 |-- requirements.txt
 `-- train.py
-```
