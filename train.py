@@ -23,5 +23,11 @@ def main(cfg: DictConfig):
     print(train_path)
     print(valid_path)
 
+    # TODO: add data_type, model_type to config
+    data_type = '1M'
+    model_type = 'item'
+    assert data_type in ['1M', '10M'], "data type must be 1M or 10M"
+    assert model_type in ['user', 'item'], "model_type must be user or item"
+
 if __name__ == "__main__":
     main()
