@@ -1,13 +1,18 @@
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader
 
+from autorec.datasets.dataset import MovieLensDataset
+
+
 class MovieLensDataModule(LightningDataModule):
+
     def __init__(self,
+                batch_size: int,
                 data_dir: str,
                 device: str,
-                batch_size: int,
                 split_rate: tuple) -> None:
         # TODO: How to split train/test data safely?
+
         super().__init__()
         self.data_dir = data_dir
         self.device = device
@@ -20,7 +25,11 @@ class MovieLensDataModule(LightningDataModule):
         - tokenize
         - etc ...
         """
-        raise NotImplementedError
+        self.movielens_dataset = MovieLensDataset(data_dir=self.data_dir,
+                                                  device=self.device,
+                                                  model_type=self.model_type)
+
+        
 
     def setup(self) -> None:
         """
