@@ -13,7 +13,6 @@ class MovieLensDataset(Dataset):
                 device: str='cuda:0',
                 model_type: str='item'):
 
-        assert model_type in ['user', 'item'], "model type must be user of item"
 
         self.device = device
         self.model_type = model_type
@@ -43,7 +42,7 @@ class MovieLensDataset(Dataset):
     
 
 def main():
-    data_dir = MOVIELENS_1M_DIR
+    data_dir = '/disk/teang1995/ml-10M100K'
     movielens_dataset = MovieLensDataset(data_dir=data_dir,
                                          device='cuda:0',
                                          model_type='item')
