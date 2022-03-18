@@ -135,3 +135,6 @@ data/
 
 # hydra
 outputs/
+
+# test file
+test.sh
