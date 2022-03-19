@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from pytorch_lightning import LightningDataModule
 from sklearn.model_selection import train_test_split
@@ -22,13 +23,14 @@ class MovieLensDataModule(LightningDataModule):
         super().__init__()
         self.batch_size = batch_size
         self.data_root = data_root
-        self.data_size = '1m' if data_size in ['1M', '1m'] else '10M100K'
+        self.data_size = '1m' if data_size in ['1M', '1m'] else '10m'
+
         self.device = device
         self.model_type = model_type
         self.valid_ratio = valid_ratio
         
-
-        self.data_dir = data_root + f'/ml-{self.data_size}'
+        self._file_name = 'ml-1m' if self.data_size == '1m' else 'ml-10M100k'
+        self.data_dir = data_root + f'/{self._file_name}'
 
         # TODO : get matrix size from config file
         self.num_users = 0
@@ -40,6 +42,12 @@ class MovieLensDataModule(LightningDataModule):
         - tokenize
         - etc ...
         """
+        # download data
+        os.system(f'rm -r {self.data_dir}')
+        os.system(f'wget https://files.grouplens.org/datasets/movielens/ml-{self.data_size}.zip')
+        os.system(f'unzip ml-{self.data_size}.zip -d {self.data_root}/')
+        os.system(f'rm ml-{self.data_size}.zip')
+
         self.movielens_dataset = MovieLensDataset(data_dir=self.data_dir,
                                                   device=self.device,
                                                   model_type=self.model_type)
