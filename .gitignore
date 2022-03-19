@@ -130,8 +130,6 @@ dmypy.json
 
 ## CUSTOM GITIGNORE
 
-# dataset
-data/
 
 # hydra
 outputs/
