@@ -9,7 +9,7 @@ from autorec.datasets.datamodule import MovieLensDataModule
 from autorec.model.autorec_module import AutoRecModule
 from autorec.path import CHECKPOINT_DIR, LOGGING_DIR, DATA_DIR
 
-HYDRA_FULL_ERROR=1 
+
 @hydra.main(config_path="config", config_name="ml-1m-item")
 def main(cfg: DictConfig):
     # load paths from path.py
