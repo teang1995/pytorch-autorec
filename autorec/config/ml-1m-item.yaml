@@ -9,7 +9,7 @@ movielens_10m:
   num_items: 3952
 
 train_module:
-  init_lr: 1e-3
+  init_lr: 0.001
   hidden_size: 500
 
 data_module:
@@ -20,6 +20,6 @@ data_module:
   valid_ratio: 0.1
 
 train:
-  num_epohcs: 100
-  device: cuda:0
+  num_epochs: 1000
+  device: 1
   

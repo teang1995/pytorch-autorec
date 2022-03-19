@@ -3,7 +3,7 @@ import pandas as pd
 from pytorch_lightning import LightningDataModule
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 from autorec.datasets.dataset import MovieLensDataset
 
@@ -53,7 +53,7 @@ class MovieLensDataModule(LightningDataModule):
                                                   model_type=self.model_type)
         
 
-    def setup(self) -> None:
+    def setup(self, stage: Optional[str] = None) -> None:
         """
         - count number of classes
         - build vocabulary

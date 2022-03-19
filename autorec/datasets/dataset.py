@@ -3,8 +3,6 @@ from typing import Optional
 from torch.utils.data import Dataset
 import os
 
-from autorec.path import MOVIELENS_1M_DIR, MOVIELENS_10M_DIR
-
 
 class MovieLensDataset(Dataset):
 

@@ -7,11 +7,16 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 
 from autorec.datasets.datamodule import MovieLensDataModule
 from autorec.model.autorec_module import AutoRecModule
-from autorec.path import CHECKPOINT_DIR, LOGGING_DIR
+from autorec.path import CHECKPOINT_DIR, LOGGING_DIR, DATA_DIR
 
 HYDRA_FULL_ERROR=1 
 @hydra.main(config_path="config", config_name="ml-1m-item")
 def main(cfg: DictConfig):
+    # load paths from path.py
+    data_root = DATA_DIR
+    checkpoint_dir = CHECKPOINT_DIR
+    logging_dir = LOGGING_DIR
+
     # load configs from hydra config file
     datamodule_config = cfg['data_module']
     trainmodule_config = cfg['train_module']
@@ -19,7 +24,6 @@ def main(cfg: DictConfig):
 
     # datamodule_config
     batch_size = datamodule_config['batch_size']
-    data_root = datamodule_config['data_root']
     data_size = datamodule_config['data_size']
     model_type = datamodule_config['model_type']
     valid_ratio = datamodule_config['valid_ratio']
@@ -41,7 +45,7 @@ def main(cfg: DictConfig):
     input_size = num_users if model_type == 'item' else num_items
 
     logger = TensorBoardLogger(
-                            save_dir=LOGGING_DIR,  
+                            save_dir=logging_dir,  
                             name="ml-1m-item", 
                             default_hp_metric=False,
                             )
@@ -49,7 +53,7 @@ def main(cfg: DictConfig):
     # TODO: how to use modelcheckpoint by rmse (custom loss)?
     # First, I will save weight of the last epoch. 
     checkpoint_callback = ModelCheckpoint(
-                                        dirpath=CHECKPOINT_DIR',
+                                        dirpath=checkpoint_dir,
                                         filename=f'ml-{data_size}-{model_type}',
                                         mode='max'
                                         )
@@ -66,7 +70,7 @@ def main(cfg: DictConfig):
                                  input_size=input_size,
                                  hidden_size=hidden_size)
     # declare pl trainer
-    trainer = pl.trainer(gpus=device,
+    trainer = pl.Trainer(gpus=device,
                          max_epochs=num_epochs)
     
     # trainer.fit
