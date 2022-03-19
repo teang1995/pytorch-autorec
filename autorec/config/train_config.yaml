@@ -1,9 +1,0 @@
-# thanks to real.
-train:
-  epoch: 200
-  batch_size: 128
-  optimizer: Adam
-  
-dataset:
-  train_path: some/path/to/train/data
-  valid_path: some/path/to/valid/data

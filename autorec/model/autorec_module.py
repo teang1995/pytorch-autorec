@@ -34,7 +34,6 @@ class AutoRecModule(pl.LightningDataModule):
         prediction = self.forward(X)
         loss = self.masked_RMSE(prediction, X)  
         self.log('validation_loss', loss, on_step=False, on_epoch=True)
-        self.log('Accuracy', self.acc, on_step=False, on_epoch=True)
 
     def test_step(self, batch):
         raise NotImplementedError

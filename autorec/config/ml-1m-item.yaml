@@ -1,0 +1,25 @@
+# thanks to real.
+# hyperparameter settings reffered to https://github.com/gtshs2/Autorec
+movielens_1m:
+  num_users: 6040
+  num_items: 3952
+
+movielens_10m:
+  num_users: 6040
+  num_items: 3952
+
+train_module:
+  init_lr: 1e-3
+  hidden_size: 500
+
+data_module:
+  batch_size: 128
+  data_root: ./data
+  data_size: 1m
+  model_type: item
+  valid_ratio: 0.1
+
+train:
+  num_epohcs: 100
+  device: cuda:0
+  
