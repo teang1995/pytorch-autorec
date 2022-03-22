@@ -11,9 +11,10 @@ movielens_10m:
 train_module:
   init_lr: 0.001
   hidden_size: 500
+  optimizer: rmsprop
 
 data_module:
-  batch_size: 128
+  batch_size: 100
   data_root: ./data
   data_size: 1m
   model_type: item

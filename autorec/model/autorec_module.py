@@ -8,21 +8,34 @@ from autorec.model.autorec import AutoRec
 
 class AutoRecModule(LightningModule):
     def __init__(self,
-                init_lr: float,
-                input_size: int,
-                hidden_size: int):
+                 hidden_size: int,
+                 init_lr: float,
+                 input_size: int,
+                 optimizer: str):
         super().__init__()
         self.init_lr = init_lr
         self.input_size = input_size
         self.hidden_size = hidden_size
-
+        self.optimizer = optimizer
         self.net = AutoRec(input_size=self.input_size,
                            hidden_size=self.hidden_size)
-        self.acc = Accuracy()
+
 
     def configure_optimizers(self):
-        return torch.optim.Rprop(self.net.parameters(), lr=self.init_lr)
+        if self.optimizer == 'adam':
+            optimizer = torch.optim.Adam(self.net.parameters(), lr=self.init_lr)
+        elif self.optimizer == 'rmsprop':
+            optimizer = torch.optim.RMSprop(self.net.parameters(), lr=self.init_lr)
+        else:
+            raise NotImplementedError
 
+        scheduler = torch.optim.lr_scheduler.ExponentialLR(
+            optimizer=optimizer,
+            gamma=0.99,
+            last_epoch=-1,
+            verbose=True
+        )
+        return [optimizer], [scheduler]
     def forward(self, X):
         return self.net(X)
 

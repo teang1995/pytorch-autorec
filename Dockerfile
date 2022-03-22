@@ -15,3 +15,7 @@ RUN pip install -r requirements.txt
 RUN pip install pathlib==1.0.1
 
 
+# pytorch version align for gpu
+RUN pip install torch==1.7.1+cu110 \
+torchvision==0.8.2+cu110 torchtext==0.8.1 \
+-f https://download.pytorch.org/whl/torch_stable.html 

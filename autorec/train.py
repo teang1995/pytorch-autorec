@@ -31,6 +31,7 @@ def main(cfg: DictConfig):
     # trainmodule_config
     init_lr = trainmodule_config['init_lr']
     hidden_size = trainmodule_config['hidden_size']
+    optimizer = trainmodule_config['optimizer']
 
     # train_config
     num_epochs = train_config['num_epochs']
@@ -66,9 +67,10 @@ def main(cfg: DictConfig):
                                       valid_ratio=valid_ratio) 
 
     # declare train module
-    train_module = AutoRecModule(init_lr=init_lr,
+    train_module = AutoRecModule(hidden_size=hidden_size,
+                                 init_lr=init_lr,
                                  input_size=input_size,
-                                 hidden_size=hidden_size)
+                                 optimizer=optimizer)
     # declare pl trainer
     trainer = pl.Trainer(gpus=device,
                          max_epochs=num_epochs)
