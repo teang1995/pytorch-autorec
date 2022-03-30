@@ -1,4 +1,5 @@
 import hydra
+import logging
 from omegaconf import DictConfig
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -46,9 +47,8 @@ def main(cfg: DictConfig):
     input_size = num_users if model_type == 'item' else num_items
 
     logger = TensorBoardLogger(
-                            save_dir=logging_dir,  
-                            name="ml-1m-item", 
-                            default_hp_metric=False,
+                            save_dir=logging_dir,
+                            name=f'ml-{data_size}-{model_type}-logs'
                             )
 
     # TODO: how to use modelcheckpoint by rmse (custom loss)?
@@ -58,6 +58,13 @@ def main(cfg: DictConfig):
                                         filename=f'ml-{data_size}-{model_type}',
                                         mode='max'
                                         )
+
+    early_stop_callback = EarlyStopping(
+                                    monitor='validation_loss',  
+                                    min_delta=1e-4,  
+                                    patience=20,  
+                                    mode='min'
+                                    )
     # declare data module
     data_module = MovieLensDataModule(batch_size=batch_size,
                                       data_root=data_root,
@@ -73,7 +80,11 @@ def main(cfg: DictConfig):
                                  optimizer=optimizer)
     # declare pl trainer
     trainer = pl.Trainer(gpus=device,
-                         max_epochs=num_epochs)
+                         max_epochs=num_epochs,
+                         callbacks=[early_stop_callback,
+                                    checkpoint_callback],
+                         logger=logger,
+                         log_every_n_steps=10)
     
     # trainer.fit
     trainer.fit(model=train_module,

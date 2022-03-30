@@ -45,13 +45,14 @@ class AutoRecModule(LightningModule):
         loss = masked_RMSE(prediction, X)
         self.log('train_loss_step', loss, on_step=True, on_epoch=False)
         self.log('train_loss_epoch', loss, on_step=False, on_epoch=True)
-        return loss
+        return {'loss': loss}
 
     def validation_step(self, X, batch_idx: int):
         X = X.float()
         prediction = self.forward(X)
         loss = masked_RMSE(prediction, X)  
         self.log('validation_loss', loss, on_step=False, on_epoch=True)
+        return {'val_loss': loss}
 
     def test_step(self, batch):
         raise NotImplementedError

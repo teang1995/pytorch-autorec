@@ -1,0 +1,1 @@
+docker run -itd --rm -v $(pwd):/pytorch-autorec --gpus="device=0" -w /pytorch-autorec --name autorec autorec:v1.0 python -m autorec.train
