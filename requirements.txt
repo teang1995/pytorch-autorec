@@ -106,7 +106,7 @@ ninja==1.10.2.3
 nodeenv==1.6.0
 notebook==6.4.8
 numpy==1.22.2
-oauthlib==3.2.0
+oauthlib==3.2.2
 omegaconf==2.1.1
 onnxruntime==1.10.0
 outcome==1.1.0
