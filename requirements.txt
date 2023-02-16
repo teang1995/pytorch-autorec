@@ -209,7 +209,7 @@ urllib3==1.26.8
 virtualenv==20.13.2
 wcwidth==0.2.5
 webencodings==0.5.1
-Werkzeug==2.0.3
+Werkzeug==2.2.3
 widgetsnbextension==3.5.2
 xxhash==3.0.0
 yarl==1.7.2
